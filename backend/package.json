@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "easyimage": "^3.1.1",
     "express": "^4.17.2",
+    "firebase": "^9.6.6",
     "fs": "^0.0.1-security",
     "github-calendar": "^2.2.9",
     "github-calendar-graph": "^0.2.8",

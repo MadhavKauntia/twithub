@@ -5,18 +5,17 @@ import dotenv from "dotenv";
 dotenv.config();
 import axios from "axios";
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 import puppeteer from "puppeteer";
 import { HTML_START, HTML_END } from "./html-snippets.js";
-
-const twitterClient = new client.TwitterClient({
-  apiKey: process.env.TWITTER_API_KEY,
-  apiSecret: process.env.TWITTER_API_SECRET,
-  accessToken: process.env.TWITTER_ACCESS_TOKEN,
-  accessTokenSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-});
+import cors from "cors";
 
 const FILE_NAME = "contributions.png";
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
 async function generateBanner(username) {
   const res = await axios.get(
@@ -37,8 +36,14 @@ async function generateBanner(username) {
   await browser.close();
 }
 
-async function updateBanner() {
+async function updateBanner(token, secret) {
   try {
+    const twitterClient = new client.TwitterClient({
+      apiKey: process.env.TWITTER_API_KEY,
+      apiSecret: process.env.TWITTER_API_SECRET,
+      accessToken: token,
+      accessTokenSecret: secret,
+    });
     const base64Banner = fs.readFileSync(FILE_NAME, {
       encoding: "base64",
     });
@@ -53,10 +58,11 @@ async function updateBanner() {
   });
 }
 
-app.get("/generateBanner", (req, res) => {
+app.get("/generateBanner", cors(corsOptions), (req, res) => {
+  console.log("received request");
   generateBanner(req.query.username)
     .then(() => {
-      updateBanner()
+      updateBanner(req.query.token, req.query.secret)
         .then(() => {
           res.status(200);
           res.send();
