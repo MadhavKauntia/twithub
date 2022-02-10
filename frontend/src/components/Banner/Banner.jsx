@@ -17,11 +17,7 @@ const Banner = ({
       <div className="twitter__banner-content">
         {description}
         <div className="twitter__banner-content_actions">
-          <input
-            placeholder={inputLabel}
-            ref={inputRef}
-            value={inputRef.current}
-          />
+          <input placeholder={inputLabel} ref={inputRef} />
           <button type="button" onClick={submitHandler}>
             Set Banner
           </button>

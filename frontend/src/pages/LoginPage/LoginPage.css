@@ -46,6 +46,14 @@
   flex-direction: column;
 }
 
+.twithub__login-page_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .twithub__login-page h1 {
   font-family: Poppins;
   font-weight: bold;

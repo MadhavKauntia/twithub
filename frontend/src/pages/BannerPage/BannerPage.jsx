@@ -31,7 +31,7 @@ const BannerPage = () => {
   };
   return (
     <div className="twithub__banner-page">
-      <Header initials="MK" />
+      <Header initials={authCtx.initials} />
       <div className="twithub__banner-page_content">
         <h2>Select a Banner</h2>
         <Banner
@@ -50,8 +50,8 @@ const BannerPage = () => {
           inputLabel="Your GitHub Username..."
           submitHandler={changeGitHubBannerHandler}
         />
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };

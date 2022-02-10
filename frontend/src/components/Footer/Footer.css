@@ -1,12 +1,11 @@
 .twithub__footer {
-  position: absolute;
-  width: 100%;
-  bottom: 1rem;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
+  margin-top: auto;
+  width: 100%;
 
   font-family: Poppins;
   font-style: normal;

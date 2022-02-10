@@ -21,18 +21,17 @@ const LoginPage = () => {
         // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
         // You can use these server side with your app's credentials to access the Twitter API.
         const credential = TwitterAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const secret = credential.secret;
 
-        // The signed-in user info.
-        const user = result.user;
-        console.log(user);
-
-        authCtx.login(token, secret);
+        authCtx.login(
+          credential.accessToken,
+          credential.secret,
+          result.user.displayName
+        );
         navigate("/banners", { replace: true });
         // ...
       })
       .catch((error) => {
+        alert("Login failed");
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -46,12 +45,14 @@ const LoginPage = () => {
 
   return (
     <div className="twithub__login-page">
-      <h1>TwitHub</h1>
-      <p>
-        Stand out by generating realtime banners designed for <br />
-        Tech Twitter
-      </p>
-      <img src={twitterButton} alt="login" onClick={loginHandler} />
+      <div className="twithub__login-page_content">
+        <h1>TwitHub</h1>
+        <p>
+          Stand out by generating realtime banners designed for <br />
+          Tech Twitter
+        </p>
+        <img src={twitterButton} alt="login" onClick={loginHandler} />
+      </div>
       <Footer />
     </div>
   );

@@ -65,7 +65,9 @@ async function updateBanner(token, secret) {
 }
 
 app.get("/generateBanner", cors(corsOptions), (req, res) => {
-  console.log("received request");
+  if (!req.query.username || !req.query.token || !req.query.secret) {
+    res.status(400).send({ error: "Query params not present" });
+  }
   generateBanner(req.query.username)
     .then(() => {
       updateBanner(req.query.token, req.query.secret)
