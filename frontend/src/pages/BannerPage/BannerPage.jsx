@@ -31,7 +31,7 @@ const BannerPage = () => {
   };
   return (
     <div className="twithub__banner-page">
-      <Header initials={authCtx.initials} />
+      <Header />
       <div className="twithub__banner-page_content">
         <h2>Select a Banner</h2>
         <Banner
