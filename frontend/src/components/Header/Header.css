@@ -1,0 +1,45 @@
+.twithub__header {
+  width: 100%;
+  background: #2d333b;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 2rem;
+}
+
+.twithub__header h1 {
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 54px;
+  text-align: center;
+  letter-spacing: 2px;
+
+  color: #1d9bf0;
+  cursor: pointer;
+}
+
+.twithub__header-profile {
+  background-color: black;
+  border-radius: 50%;
+  height: 4rem;
+  width: 4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.twithub__header-profile p {
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+
+  color: #ffffff;
+}

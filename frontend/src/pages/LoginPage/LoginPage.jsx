@@ -5,6 +5,7 @@ import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 import twitterButton from "../../assets/sign-in-with-twitter.png";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import Footer from "../../components/Footer/Footer";
 
 const provider = new TwitterAuthProvider();
 
@@ -46,8 +47,12 @@ const LoginPage = () => {
   return (
     <div className="twithub__login-page">
       <h1>TwitHub</h1>
-      <p>Twitter Banners for Tech Twitter</p>
+      <p>
+        Stand out by generating realtime banners designed for <br />
+        Tech Twitter
+      </p>
       <img src={twitterButton} alt="login" onClick={loginHandler} />
+      <Footer />
     </div>
   );
 };

@@ -1,70 +1,26 @@
-.twithub__banner-page {
-  /* ff 3.6+ */
-  background: -moz-linear-gradient(
-    90deg,
-    rgba(29, 155, 240, 1) 0%,
-    rgba(34, 39, 46, 1) 100%
-  );
-
-  /* safari 5.1+,chrome 10+ */
-  background: -webkit-linear-gradient(
-    90deg,
-    rgba(29, 155, 240, 1) 0%,
-    rgba(34, 39, 46, 1) 100%
-  );
-
-  /* opera 11.10+ */
-  background: -o-linear-gradient(
-    90deg,
-    rgba(29, 155, 240, 1) 0%,
-    rgba(34, 39, 46, 1) 100%
-  );
-
-  /* ie 6-9 */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22272E', endColorstr='#1D9BF0', GradientType=0 );
-
-  /* ie 10+ */
-  background: -ms-linear-gradient(
-    90deg,
-    rgba(29, 155, 240, 1) 0%,
-    rgba(34, 39, 46, 1) 100%
-  );
-
-  /* global 94%+ browsers support */
-  background: linear-gradient(
-    90deg,
-    rgba(29, 155, 240, 1) 0%,
-    rgba(34, 39, 46, 1) 100%
-  );
-
+.twithub__banner-page_content {
   min-height: 100%;
   min-width: 100%;
   position: fixed;
+  background: #1c2128;
 }
 
-.twithub__banner-page img {
-  margin: 2rem;
-  display: block;
-  width: auto;
-  height: auto;
-  border-radius: 1rem;
-}
-
-.twithub__banner-page_logout-button {
-  outline: none;
-  border: none;
-  background-color: black;
-  color: white;
-  border-radius: 0.5rem;
-  width: 6rem;
-  height: 2rem;
-  float: right;
-  margin: 2rem;
-  cursor: pointer;
-}
-
-.twithub__banner-page_banners {
-  margin: 4rem;
+.twithub__banner-page_content {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+}
+
+.twithub__banner-page_content h2 {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 54px;
+  text-align: center;
+  padding-top: 2rem;
+
+  color: #9eafba;
+
+  text-shadow: 0px 4px 4px rgba(220, 218, 218, 0.25);
 }

@@ -47,21 +47,75 @@
 }
 
 .twithub__login-page h1 {
-  color: white;
-  font-size: 5rem;
-  margin: 1rem;
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 6rem;
+  line-height: 144px;
+
+  text-align: center;
+
+  color: #ffffff;
 }
 
 .twithub__login-page p {
-  color: white;
-  font-size: 1.5rem;
-  margin: 1rem;
+  font-family: Poppins;
+  font-size: 1.25rem;
+  line-height: 27px;
   text-align: center;
+  margin: 1rem;
+
+  color: #f8f8f8;
 }
 
 .twithub__login-page img {
   margin: 2rem;
   cursor: pointer;
+}
+
+.scale-in-center {
+  -webkit-animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    both;
+  animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .twithub__login-page h1 {
+    font-size: 4.5rem;
+  }
+  .twithub__login-page p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .twithub__login-page p br {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 400px) {

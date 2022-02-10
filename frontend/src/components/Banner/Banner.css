@@ -1,0 +1,120 @@
+.twithub__banner {
+  background: linear-gradient(180deg, #2f4a5c 0%, rgba(47, 74, 92, 0) 100%);
+  border: 3px solid #2d333b;
+  box-sizing: border-box;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.twithub__banner-image {
+  margin: 2rem;
+}
+
+.twithub__banner-image img {
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.twitter__banner-content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 2rem;
+}
+
+.twitter__banner-content p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+
+  color: #9eafba;
+}
+
+.twitter__banner-content_actions {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.twitter__banner-content_actions input {
+  background: #2d333b;
+  outline: none;
+  border: none;
+
+  font-family: Poppins;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 3rem;
+
+  color: #9eafba;
+}
+
+.twitter__banner-content_actions button {
+  background: #1d9bf0;
+  border: none;
+  outline: none;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem 2rem;
+
+  color: #f8fcff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1450px) {
+  .twithub__banner {
+    flex-direction: column;
+  }
+  .twitter__banner-content_actions {
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .twithub__banner-image {
+    margin: 0.5rem;
+  }
+  .twitter__banner-content {
+    margin: 0.5rem;
+  }
+  .twitter__banner-content {
+    margin: 1rem;
+  }
+  .twitter__banner-content_actions {
+    margin-top: 1rem;
+  }
+  .twitter__banner-content p {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .twitter__banner-content_actions input {
+    font-size: 10px;
+    line-height: 15px;
+  }
+  .twitter__banner-content_actions button {
+    padding: 0.25rem 1rem;
+  }
+}

@@ -18,6 +18,12 @@ var corsOptions = {
 };
 
 async function generateBanner(username) {
+  try {
+    await axios.get(`https://api.github.com/users/${username}`);
+  } catch (err) {
+    throw err;
+  }
+
   const res = await axios.get(
     "https://api.bloggify.net/gh-calendar/?username=" + username
   );

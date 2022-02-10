@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import firebase from "../config/firebase-config";
+import { getAuth, signOut } from "firebase/auth";
+
+const auth = getAuth();
 
 const AuthContext = React.createContext({
   token: "",
@@ -22,6 +26,13 @@ export const AuthContextProvider = (props) => {
   const logoutHandler = () => {
     setToken(null);
     setSecret(null);
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const contextValue = {
