@@ -202,6 +202,10 @@ text.ContributionCalendar-label {
     fill: #ccc;
     font-size: 11px;
 }
+
+h1 {
+    color: white;
+}
 </style>
 </head>
 

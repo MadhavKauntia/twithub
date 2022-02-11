@@ -57,7 +57,7 @@ async function updateBanner(token, secret) {
       banner: base64Banner,
     });
   } catch (err) {
-    console.log(err);
+    throw err;
   }
   fs.unlink(FILE_NAME, (err) => {
     if (err) throw err;

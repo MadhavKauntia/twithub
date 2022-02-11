@@ -45,7 +45,7 @@ const LoginPage = () => {
 
   return (
     <div className="twithub__login-page">
-      <div className="twithub__login-page_content">
+      <div className="twithub__login-page_content scale-up-center">
         <h1>TwitHub</h1>
         <p>
           Stand out by generating realtime banners designed for <br />

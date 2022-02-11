@@ -39,12 +39,8 @@ export const AuthContextProvider = (props) => {
     setSecret(null);
     setInitials(null);
     signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+      .then(() => {})
+      .catch((error) => {});
   };
 
   const contextValue = {
