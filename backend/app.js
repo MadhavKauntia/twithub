@@ -9,11 +9,17 @@ const port = process.env.PORT || 3001;
 import puppeteer from "puppeteer";
 import { HTML_START, HTML_END } from "./html-snippets.js";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
+
+const apiLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 100,
+});
 
 const FILE_NAME = "contributions.png";
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -64,7 +70,7 @@ async function updateBanner(token, secret) {
   });
 }
 
-app.get("/generateBanner", cors(corsOptions), (req, res) => {
+app.get("/generateBanner", apiLimiter, cors(corsOptions), (req, res) => {
   if (!req.query.username || !req.query.token || !req.query.secret) {
     res.status(400).send({ error: "Query params not present" });
   }
@@ -84,6 +90,10 @@ app.get("/generateBanner", cors(corsOptions), (req, res) => {
       res.status(500);
       res.send({ error: err.message });
     });
+});
+
+app.get("/", apiLimiter, cors(corsOptions), (req, res) => {
+  res.status(200).send("UP");
 });
 
 app.listen(port, () => {

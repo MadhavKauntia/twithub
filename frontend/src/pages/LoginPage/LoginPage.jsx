@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./LoginPage.css";
 import firebase from "../../config/firebase-config";
 import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
@@ -31,7 +31,6 @@ const LoginPage = () => {
         // ...
       })
       .catch((error) => {
-        alert("Login failed");
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;

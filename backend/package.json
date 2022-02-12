@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "express-rate-limit": "^6.2.1",
     "firebase": "^9.6.6",
     "fs": "^0.0.1-security",
     "puppeteer": "^13.1.3",
