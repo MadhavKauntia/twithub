@@ -25,8 +25,12 @@ const BannerPage = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3001/generateBanner?username=${githubUsernameRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}`
+        `${process.env.REACT_APP_BACKEND_URL}/generateBanner?username=${githubUsernameRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}`
       );
+      console.log(process.env.REACT_APP_BACKEND_URL);
+      console.log(res.status);
+      console.log(res);
+
       if (!res.ok) {
         const resData = await res.json();
         if (resData.error === "Request failed with status code 404") {
