@@ -13,7 +13,7 @@ import rateLimit from "express-rate-limit";
 
 const apiLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 100,
+  max: 20,
 });
 
 const FILE_NAME = "contributions.png";
