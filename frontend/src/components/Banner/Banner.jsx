@@ -5,14 +5,15 @@ const Banner = ({
   bannerImg,
   bannerImgAlt,
   description,
-  inputRef,
-  inputLabel,
+  inputRefs,
+  inputLabels,
   error,
   setError,
   success,
   setSuccess,
   submitHandler,
 }) => {
+  let count = -1;
   return (
     <div className="twithub__banner section__margin">
       <div className="twithub__banner-image">
@@ -21,14 +22,19 @@ const Banner = ({
       <div className="twitter__banner-content">
         {description}
         <div className="twitter__banner-content_actions">
-          <input
-            placeholder={inputLabel}
-            ref={inputRef}
-            onChange={() => {
-              setError(null);
-              setSuccess(null);
-            }}
-          />
+          {inputLabels.map((inputLabel) => {
+            ++count;
+            return (
+              <input
+                placeholder={inputLabel}
+                ref={inputRefs[count]}
+                onChange={() => {
+                  setError(null);
+                  setSuccess(null);
+                }}
+              />
+            );
+          })}
           <button type="button" onClick={submitHandler}>
             Set Banner
           </button>
