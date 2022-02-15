@@ -22,7 +22,7 @@
   flex-direction: row;
 }
 
-.twithub__footer_privacy-terms div {
+.twithub__footer_privacy-terms a {
   padding: 1rem;
   margin-left: 1rem;
   margin-right: 1rem;
