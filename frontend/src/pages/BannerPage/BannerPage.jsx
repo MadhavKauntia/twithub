@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../store/auth-context";
 import "./BannerPage.css";
 import gitHubBanner from "../../assets/banner.png";
@@ -31,6 +31,7 @@ const BannerPage = () => {
     githubContributionsWithTitleSuccess,
     setGithubContributionsWithTitleSuccess,
   ] = useState(null);
+  const [bannerStatus, setBannerStatus] = useState(false);
 
   const changeGitHubBannerHandler = async () => {
     setGithubContributionsError(null);
@@ -45,7 +46,7 @@ const BannerPage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/githubContributionsBanner?username=${githubUsernameRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}`
+        `${process.env.REACT_APP_BACKEND_URL}/githubContributionsBanner?username=${githubUsernameRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}&twitter_username=${authCtx.twitterUsername}`
       );
 
       if (!res.ok) {
@@ -58,6 +59,7 @@ const BannerPage = () => {
           );
         }
       } else {
+        setBannerStatus(true);
         setGithubContributionsSuccess("Banner updated successfully");
       }
     } catch (err) {
@@ -94,7 +96,7 @@ const BannerPage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/githubContributionsBannerWithTitleAndDescription?username=${githubUsernameWithTitleRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}&title=${titleRef.current.value}&description=${descriptionRef.current.value}`
+        `${process.env.REACT_APP_BACKEND_URL}/githubContributionsBannerWithTitleAndDescription?username=${githubUsernameWithTitleRef.current.value}&token=${authCtx.token}&secret=${authCtx.secret}&title=${titleRef.current.value}&description=${descriptionRef.current.value}&twitter_username=${authCtx.twitterUsername}`
       );
 
       if (!res.ok) {
@@ -109,6 +111,7 @@ const BannerPage = () => {
           );
         }
       } else {
+        setBannerStatus(true);
         setGithubContributionsWithTitleSuccess("Banner updated successfully");
       }
     } catch (err) {
@@ -118,6 +121,39 @@ const BannerPage = () => {
     }
     setProgress(100);
   };
+
+  useEffect(() => {
+    const fetchBannerStatus = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/bannerStatus?twitter_username=${authCtx.twitterUsername}`
+      );
+      const responseData = await response.json();
+      return responseData.isBannerSet ? responseData.isBannerSet : false;
+    };
+    fetchBannerStatus().then((isBannerSet) => {
+      setBannerStatus(isBannerSet);
+    });
+  }, []);
+
+  const stopBannerHandler = async () => {
+    setProgress(75);
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/banner?twitter_username=${authCtx.twitterUsername}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then(() => {
+        setBannerStatus(false);
+      })
+      .catch((err) => {
+        console.log(
+          `Error occurred while deleting job for ${authCtx.twitterUsername}: ${err.message}`
+        );
+      });
+    setProgress(100);
+  };
+
   return (
     <div className="twithub__banner-page">
       <LoadingBar
@@ -127,19 +163,31 @@ const BannerPage = () => {
       />
       <Header />
       <div className="twithub__banner-page_content">
-        <h2>Select a Banner</h2>
+        <div className="twithub__banner-page_content-header">
+          <h2>Select a Banner</h2>
+          {bannerStatus && (
+            <button type="button" onClick={stopBannerHandler}>
+              Deactivate Banner
+            </button>
+          )}
+        </div>
         <div className="scale-up-center">
           <Banner
             bannerImg={gitHubBanner}
             bannerImgAlt="GitHub Contributions Calendar"
             description={
-              <p>
-                Use this template to set your{" "}
-                <span style={{ fontWeight: "bold" }}>
-                  GitHub Contributions Calendar
-                </span>{" "}
-                as your Twitter Banner
-              </p>
+              <React.Fragment>
+                <p>
+                  Use this template to set your{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    GitHub Contributions Calendar
+                  </span>{" "}
+                  as your Twitter Banner
+                </p>
+                <p style={{ marginTop: "0.5rem" }}>
+                  This banner will automatically update every midnight.
+                </p>
+              </React.Fragment>
             }
             inputRefs={[githubUsernameRef]}
             inputLabels={["Your GitHub Username"]}
@@ -153,13 +201,18 @@ const BannerPage = () => {
             bannerImg={githubContributionsWithTitleBanner}
             bannerImgAlt="GitHub Contributions Calendar With Text"
             description={
-              <p>
-                Use this template to set your{" "}
-                <span style={{ fontWeight: "bold" }}>
-                  GitHub Contributions Calendar
-                </span>{" "}
-                as your Twitter Banner along with an introduction
-              </p>
+              <React.Fragment>
+                <p>
+                  Use this template to set your{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    GitHub Contributions Calendar
+                  </span>{" "}
+                  as your Twitter Banner along with an introduction
+                </p>
+                <p style={{ marginTop: "0.5rem" }}>
+                  This banner will automatically update every midnight.
+                </p>
+              </React.Fragment>
             }
             inputRefs={[githubUsernameWithTitleRef, titleRef, descriptionRef]}
             inputLabels={["Your GitHub Username", "Title", "Description"]}

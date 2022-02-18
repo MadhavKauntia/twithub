@@ -9,7 +9,8 @@ const AuthContext = React.createContext({
   secret: "",
   isLoggedIn: false,
   initials: "",
-  login: (token, secret, name) => {},
+  twitterUsername: "",
+  login: (token, secret, name, username) => {},
   logout: () => {},
 });
 
@@ -17,10 +18,11 @@ export const AuthContextProvider = (props) => {
   const [token, setToken] = useState(null);
   const [secret, setSecret] = useState(null);
   const [initials, setInitials] = useState(null);
+  const [twitterUsername, setTwitterUsername] = useState(null);
 
   const userIsLoggedIn = !!token && !!secret;
 
-  const loginHandler = (token, secret, name) => {
+  const loginHandler = (token, secret, name, username) => {
     setToken(token);
     setSecret(secret);
     let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
@@ -32,12 +34,14 @@ export const AuthContextProvider = (props) => {
     ).toUpperCase();
 
     setInitials(initial);
+    setTwitterUsername(username);
   };
 
   const logoutHandler = () => {
     setToken(null);
     setSecret(null);
     setInitials(null);
+    setTwitterUsername(null);
     signOut(auth)
       .then(() => {})
       .catch((error) => {});
@@ -48,6 +52,7 @@ export const AuthContextProvider = (props) => {
     secret: secret,
     initials: initials,
     isLoggedIn: userIsLoggedIn,
+    twitterUsername: twitterUsername,
     login: loginHandler,
     logout: logoutHandler,
   };

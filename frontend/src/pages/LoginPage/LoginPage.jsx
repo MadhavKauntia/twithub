@@ -25,7 +25,8 @@ const LoginPage = () => {
         authCtx.login(
           credential.accessToken,
           credential.secret,
-          result.user.displayName
+          result.user.displayName,
+          result._tokenResponse.screenName
         );
         navigate("/banners", { replace: true });
         // ...

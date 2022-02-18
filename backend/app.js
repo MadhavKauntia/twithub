@@ -6,17 +6,25 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
+import { connectDB } from "./config/db.js";
+connectDB();
+
 import {
   generateGitHubContributionsBanner,
   generateGitHubContributionsBannerWithTitleAndDescription,
-} from "./generate-banners.js";
+  stopBannerJob,
+  getBannerStatus,
+} from "./banners-utils.js";
+
+import { daillyBannerTask } from "./schedulers/cronJobs.js";
+daillyBannerTask.start();
 
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 
 const apiLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 20,
+  max: 100,
 });
 
 var corsOptions = {
@@ -29,13 +37,19 @@ app.get(
   apiLimiter,
   cors(corsOptions),
   (req, res) => {
-    if (!req.query.username || !req.query.token || !req.query.secret) {
+    if (
+      !req.query.username ||
+      !req.query.token ||
+      !req.query.secret ||
+      !req.query.twitter_username
+    ) {
       res.status(400).send({ error: "Query params not present" });
     }
     generateGitHubContributionsBanner(
       req.query.username,
       req.query.token,
-      req.query.secret
+      req.query.secret,
+      req.query.twitter_username.toLowerCase()
     )
       .then(() => {
         res.status(200).send();
@@ -57,7 +71,8 @@ app.get(
       !req.query.token ||
       !req.query.secret ||
       !req.query.title ||
-      !req.query.description
+      !req.query.description ||
+      !req.query.twitter_username
     ) {
       res.status(400).send({ error: "Query params not present" });
     }
@@ -66,7 +81,8 @@ app.get(
       req.query.token,
       req.query.secret,
       req.query.title,
-      req.query.description
+      req.query.description,
+      req.query.twitter_username.toLowerCase()
     )
       .then(() => {
         res.status(200).send();
@@ -77,6 +93,42 @@ app.get(
       });
   }
 );
+
+app.get("/bannerStatus", apiLimiter, cors(corsOptions), (req, res) => {
+  if (!req.query.twitter_username) {
+    res.status(400).send({
+      error: "Username query param must be present",
+    });
+  }
+
+  getBannerStatus(req.query.twitter_username.toLowerCase())
+    .then((isBannerSet) => {
+      res.status(200).send({ isBannerSet });
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send({ error: err.message });
+    });
+});
+
+app.options("/banner", cors(corsOptions));
+app.delete("/banner", apiLimiter, cors(corsOptions), (req, res) => {
+  if (!req.query.twitter_username) {
+    res.status(400).send({
+      error: "Username query param must be present",
+    });
+  }
+  stopBannerJob(req.query.twitter_username.toLowerCase())
+    .then(() => {
+      console.log(`Deleted job for ${req.query.twitter_username}`);
+      res.status(200).send();
+    })
+    .catch((err) => {
+      res.status(500).send({
+        error: err.message,
+      });
+    });
+});
 
 app.get("/", apiLimiter, cors(corsOptions), (req, res) => {
   res.status(200).send("UP");
