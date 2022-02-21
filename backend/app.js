@@ -44,6 +44,7 @@ app.get(
       !req.query.twitter_username
     ) {
       res.status(400).send({ error: "Query params not present" });
+      return;
     }
     generateGitHubContributionsBanner(
       req.query.username,
@@ -75,6 +76,7 @@ app.get(
       !req.query.twitter_username
     ) {
       res.status(400).send({ error: "Query params not present" });
+      return;
     }
     generateGitHubContributionsBannerWithTitleAndDescription(
       req.query.username,
@@ -99,6 +101,7 @@ app.get("/bannerStatus", apiLimiter, cors(corsOptions), (req, res) => {
     res.status(400).send({
       error: "Username query param must be present",
     });
+    return;
   }
 
   getBannerStatus(req.query.twitter_username.toLowerCase())
@@ -113,12 +116,17 @@ app.get("/bannerStatus", apiLimiter, cors(corsOptions), (req, res) => {
 
 app.options("/banner", cors(corsOptions));
 app.delete("/banner", apiLimiter, cors(corsOptions), (req, res) => {
-  if (!req.query.twitter_username) {
+  if (!req.query.twitter_username || !req.query.token || !req.query.secret) {
     res.status(400).send({
-      error: "Username query param must be present",
+      error: "Username, token and secret must be present",
     });
+    return;
   }
-  stopBannerJob(req.query.twitter_username.toLowerCase())
+  stopBannerJob(
+    req.query.twitter_username.toLowerCase(),
+    req.query.token,
+    req.query.secret
+  )
     .then(() => {
       console.log(`Deleted job for ${req.query.twitter_username}`);
       res.status(200).send();

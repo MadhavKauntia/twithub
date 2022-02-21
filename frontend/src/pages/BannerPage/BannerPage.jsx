@@ -138,17 +138,26 @@ const BannerPage = () => {
   const stopBannerHandler = async () => {
     setProgress(75);
     fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/banner?twitter_username=${authCtx.twitterUsername}`,
+      `${process.env.REACT_APP_BACKEND_URL}/banner?twitter_username=${authCtx.twitterUsername}&token=${authCtx.token}&secret=${authCtx.secret}`,
       {
         method: "DELETE",
       }
     )
-      .then(() => {
-        setBannerStatus(false);
+      .then((res) => {
+        if (res.ok) {
+          setBannerStatus(false);
+        } else {
+          alert(
+            "An unexpected error occurred while deactivating your banner. Not to worry, please drop a mail to mkauntia@gmail.com with your issue. Will get it fixed ASAP."
+          );
+        }
       })
       .catch((err) => {
         console.log(
           `Error occurred while deleting job for ${authCtx.twitterUsername}: ${err.message}`
+        );
+        alert(
+          "An unexpected error occurred while deactivating your banner. Not to worry, please drop a mail to mkauntia@gmail.com with your issue. Will get it fixed ASAP."
         );
       });
     setProgress(100);

@@ -34,8 +34,9 @@ rect.ContributionCalendar-day[data-level='4'] {
     display: none;
 }
 
-body {
+html, body {
     background: #22272E;
+    width: 833
 }
 
 .calendar {

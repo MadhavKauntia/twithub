@@ -4,6 +4,9 @@ import { HTML_START, HTML_END } from "./html-snippets.js";
 import updateBanner from "./update_banner.js";
 import fs from "fs";
 import DailyBanner from "./models/dailyBannersModel.js";
+import { decrypt, encrypt } from "./utils/crypto.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 async function generateGitHubContributionsBanner(
   username,
@@ -13,7 +16,9 @@ async function generateGitHubContributionsBanner(
   job = false
 ) {
   try {
-    await axios.get(`https://api.github.com/users/${username}`);
+    await axios.get(
+      `https://api.github.com/users/${username}?my_client_id=${process.env.GITHUB_CLIENT_ID}&my_client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+    );
   } catch (err) {
     throw err;
   }
@@ -62,8 +67,8 @@ async function generateGitHubContributionsBanner(
           githubUsername: username,
           twitterUsername,
           banner: "GITHUB_CONTRIBUTIONS_BANNER",
-          token,
-          secret,
+          token: encrypt(token),
+          secret: encrypt(secret),
           title: null,
           description: null,
         },
@@ -87,7 +92,9 @@ async function generateGitHubContributionsBannerWithTitleAndDescription(
   job = false
 ) {
   try {
-    await axios.get(`https://api.github.com/users/${username}`);
+    await axios.get(
+      `https://api.github.com/users/${username}?my_client_id=${process.env.GITHUB_CLIENT_ID}&my_client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+    );
   } catch (err) {
     throw err;
   }
@@ -157,8 +164,8 @@ async function generateGitHubContributionsBannerWithTitleAndDescription(
           githubUsername: username,
           twitterUsername,
           banner: "GITHUB_CONTRIBUTIONS_TITLE_BANNER",
-          token,
-          secret,
+          token: encrypt(token),
+          secret: encrypt(secret),
           title,
           description,
         },
@@ -172,9 +179,16 @@ async function generateGitHubContributionsBannerWithTitleAndDescription(
   }
 }
 
-async function stopBannerJob(twitterUsername) {
+async function stopBannerJob(twitterUsername, token, secret) {
   try {
-    await DailyBanner.findOneAndDelete({ twitterUsername });
+    const banner = await DailyBanner.findOne({ twitterUsername });
+    if (decrypt(banner.token) === token && decrypt(banner.secret) === secret) {
+      await DailyBanner.findOneAndDelete({
+        twitterUsername,
+      });
+    } else {
+      throw Error("Unauthorized user");
+    }
   } catch (err) {
     console.log(
       `Error while deleting DB entry for user: ${twitterUsername}: ${err.message}`

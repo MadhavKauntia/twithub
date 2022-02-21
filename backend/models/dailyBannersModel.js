@@ -15,11 +15,11 @@ const dailyBannersModel = mongoose.Schema(
       required: true,
     },
     token: {
-      type: String,
+      type: mongoose.Schema({ iv: String, content: String }),
       required: true,
     },
     secret: {
-      type: String,
+      type: mongoose.Schema({ iv: String, content: String }),
       required: true,
     },
     title: {

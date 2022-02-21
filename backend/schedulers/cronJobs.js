@@ -4,17 +4,18 @@ import {
   generateGitHubContributionsBanner,
   generateGitHubContributionsBannerWithTitleAndDescription,
 } from "../banners-utils.js";
+import { decrypt } from "../utils/crypto.js";
 
 const daillyBannerTask = cron.schedule("0 0 * * *", async () => {
-  console.log("Starting daily job...");
+  console.log(`Starting daily job: ${new Date().toString()}`);
   const dailyBanners = await DailyBanner.find();
   dailyBanners.forEach((banner) => {
     switch (banner.banner) {
       case "GITHUB_CONTRIBUTIONS_BANNER":
         generateGitHubContributionsBanner(
           banner.githubUsername,
-          banner.token,
-          banner.secret,
+          decrypt(banner.token),
+          decrypt(banner.secret),
           banner.twitterUsername,
           true
         ).catch((err) => {
@@ -26,8 +27,8 @@ const daillyBannerTask = cron.schedule("0 0 * * *", async () => {
       case "GITHUB_CONTRIBUTIONS_TITLE_BANNER":
         generateGitHubContributionsBannerWithTitleAndDescription(
           banner.githubUsername,
-          banner.token,
-          banner.secret,
+          decrypt(banner.token),
+          decrypt(banner.secret),
           banner.title,
           banner.description,
           banner.twitterUsername,
