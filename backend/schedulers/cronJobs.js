@@ -6,7 +6,7 @@ import {
 } from "../banners-utils.js";
 import { decrypt } from "../utils/crypto.js";
 
-const daillyBannerTask = cron.schedule("0 0 * * *", async () => {
+const daillyBannerTask = cron.schedule("30 18 * * *", async () => {
   console.log(`Starting daily job: ${new Date().toString()}`);
   const dailyBanners = await DailyBanner.find();
   dailyBanners.forEach((banner) => {
