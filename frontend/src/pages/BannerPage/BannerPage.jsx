@@ -194,7 +194,8 @@ const BannerPage = () => {
                   as your Twitter Banner
                 </p>
                 <p style={{ marginTop: "0.5rem" }}>
-                  This banner will automatically update every midnight.
+                  This banner will automatically update every midnight. You can
+                  deactivate it whenever you want.
                 </p>
               </React.Fragment>
             }
@@ -219,7 +220,8 @@ const BannerPage = () => {
                   as your Twitter Banner along with an introduction
                 </p>
                 <p style={{ marginTop: "0.5rem" }}>
-                  This banner will automatically update every midnight.
+                  This banner will automatically update every midnight. You can
+                  deactivate it whenever you want.
                 </p>
               </React.Fragment>
             }
